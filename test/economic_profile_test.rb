@@ -1,5 +1,12 @@
+require 'minitest/autorun'
+require 'minitest/pride'
+require './lib/economic_profile'
+require './lib/district_repository'
+
+
 class EconomicProfileTest < Minitest::Test
 
+  #test from Josh
   def test_free_or_reduced_lunch_in_year
     path       = File.expand_path("../data", __dir__)
     repository = DistrictRepository.from_csv(path)
