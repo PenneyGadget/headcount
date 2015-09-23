@@ -19,11 +19,12 @@ class Parse
     end
 
     ac = grouped.fetch("ACADEMY 20")
-    ac_2012 = ac.find { |hash| hash[:timeframe] == "2012" }[:data]
+    ac_frl = ac.find_all { |hash| hash[:poverty_level] == "Eligible for Free or Reduced Lunch" }
+    ac_percent = ac_frl.find_all { |hash| hash[:dataformat] == "Percent" }
     binding.pry
   end
 
 end
 
-info = Parse.new("Pupil enrollment.csv")
+info = Parse.new("Students qualifying for free or reduced price lunch.csv")
 info.parse

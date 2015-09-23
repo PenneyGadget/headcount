@@ -2,19 +2,18 @@ require 'csv'
 require 'pry'
 
 class DistrictRepository
-  attr_accessor :data, :contents
+  attr_accessor :data
 
   def initialize
-    @data = data
-    @contents = []
+    @data = []
   end
 
   def districts
-    contents = CSV.read(('./data/Pupil enrollment.csv'), headers: true, header_converters: :symbol).map { |row| row.to_h }
-    contents.map! do |hash|
+    data = CSV.read(('./data/Pupil enrollment.csv'), headers: true, header_converters: :symbol).map { |row| row.to_h }
+    data.map! do |hash|
       hash.fetch(:location)
     end
-    puts districts = contents.uniq
+    puts districts = data.uniq
   end
 
   def find_by_name(name)
@@ -40,14 +39,6 @@ class DistrictRepository
   def self.from_csv
     #load all 18 files - use a class called CSV and read in one at a time - parse them, stick them in a hash
     #finish with a giant hash of everything
-  end
-
-  def self.find_by_name
-
-  end
-
-  def opening_the_csv
-    data = CSV.read(File(file.csv), headers: true, header_converters: :symbol).map { |row| row.to_h }
   end
 
 end
