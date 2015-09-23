@@ -80,9 +80,9 @@ class EconomicProfileTest < Minitest::Test
 
   def test_school_aged_children_in_poverty_by_year_method_returns_an_empty_hash_if_district_data_is_not_present
     skip
-    expected = []
-
-    assert_equal expected, ? not sure what goes here yet
+    # expected = []
+    #
+    # assert_equal expected, something
   end
 
   def test_school_aged_children_in_poverty_in_year_method_takes_valid_parameter
@@ -115,7 +115,7 @@ class EconomicProfileTest < Minitest::Test
     skip
     expected = []
 
-    assert_equal expected, ? not sure what goes here yet
+    assert_equal expected, something
   end
 
   def test_title_1_students_in_year_method_takes_valid_parameter

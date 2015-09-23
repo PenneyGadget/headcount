@@ -1,5 +1,6 @@
 require 'csv'
 require 'pry'
+require_relative 'parse'
 
 class DistrictRepository
   attr_accessor :data, :contents
@@ -37,12 +38,13 @@ class DistrictRepository
     all_matching
   end
 
-  def self.from_csv
+  def self.from_csv(path)
+    data = Parse.new
     #load all 18 files - use a class called CSV and read in one at a time - parse them, stick them in a hash
     #finish with a giant hash of everything
   end
 
-  def self.find_by_name
+  def self.find_by_name(name)
 
   end
 

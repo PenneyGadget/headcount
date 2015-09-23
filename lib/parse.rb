@@ -6,7 +6,7 @@ class Parse
 
   DATA_DIR = "./data/"
 
-  def initialize(file)
+  def initialize
     @data = data
     @file = file
   end
@@ -18,12 +18,12 @@ class Parse
       hash.fetch(:location)
     end
 
-    ac = grouped.fetch("ACADEMY 20")
-    ac_2012 = ac.find { |hash| hash[:timeframe] == "2012" }[:data]
-    binding.pry
+  #   ac = grouped.fetch("ACADEMY 20")
+  #   ac_2012 = ac.find { |hash| hash[:timeframe] == "2012" }[:data]
+  #   binding.pry
   end
 
 end
 
-info = Parse.new("Pupil enrollment.csv")
-info.parse
+# info = Parse.new("Pupil enrollment.csv")
+# info.parse
