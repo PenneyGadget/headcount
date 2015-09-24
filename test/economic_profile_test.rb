@@ -6,13 +6,14 @@ require './lib/district_repository'
 
 class EconomicProfileTest < Minitest::Test
 
-  #high level test from Josh
   def test_free_or_reduced_lunch_in_year
     path       = File.expand_path("../data", __dir__)
     repository = DistrictRepository.from_csv(path)
-    district   = repository.find_by_name("ACADEMY 20") #object of district class
+    district   = repository.find_by_name("ACADEMY 20")
 
     assert_equal 0.125, district.economic_profile.free_or_reduced_lunch_in_year(2012)
+
+    # assert_equal 0.125, EconomicProfile.new({key: value}).free_or_reduced_lunch_in_year(2012)
   end
 
   def test_free_or_reduced_lunch_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats

@@ -2,58 +2,50 @@ require 'csv'
 require 'pry'
 require_relative 'parse'
 
-class DistrictRepository
-  attr_accessor :data, :contents
+class DistrictRepository < Parse
+  attr_reader :data
 
   def initialize
-    @data = data
-    @contents = []
-  end
-
-  def districts
-    contents = CSV.read(('./data/Pupil enrollment.csv'), headers: true, header_converters: :symbol).map { |row| row.to_h }
-    contents.map! do |hash|
-      hash.fetch(:location)
-    end
-    puts districts = contents.uniq
-  end
-
-  def find_by_name(name)
-    index = districts.index(name)
-    if index.nil?
-      puts "nil"
-    else
-      puts districts[index]
-    end
-  end
-
-  def find_all_matching(fragment)
-    skip
-    all_matching = []
-    districts.each do |district|
-      if district.include?(fragment)
-        all_matching << district
-      end
-    end
-    all_matching
+    @data = []
   end
 
   def self.from_csv(path)
-    data = Parse.new
-    #load all 18 files - use a class called CSV and read in one at a time - parse them, stick them in a hash
-    #finish with a giant hash of everything
+    district_data = Parse.new(path)
+    district_data.parse("ACADEMY 20")
   end
 
-  def self.find_by_name(name)
+  # def districts
+  #   data = CSV.read(('./data/Pupil enrollment.csv'), headers: true, header_converters: :symbol).map { |row| row.to_h }
+  #   data.map! do |hash|
+  #     hash.fetch(:location)
+  #   end
+  #   puts districts = data.uniq
+  # end                                                                                                                   # => :districts
 
-  end
+  # def find_by_name(name)
+  #   skip
+  #   index = districts.index(name)
+  #   if index.nil?
+  #     puts "nil"
+  #   else
+  #     puts districts[index]
+  #   end
+  # end
 
-  def opening_the_csv
-    data = CSV.read(File(file.csv), headers: true, header_converters: :symbol).map { |row| row.to_h }
-  end
+  # def find_all_matching(fragment)
+  #   skip
+  #   all_matching = []
+  #   districts.each do |district|
+  #     if district.include?(fragment)
+  #       all_matching << district
+  #     end
+  #   end
+  #   all_matching
+  # end
 
 end
 
-dr = DistrictRepository.new
-dr.districts
-# dr.find_all_matching("CHERRY")
+path = File.expand_path("../data", __dir__)
+repository = DistrictRepository.from_csv(path)
+binding.pry
+# dr.from_csv("ACADEMY 20")

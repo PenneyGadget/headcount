@@ -2,28 +2,38 @@ require 'csv'
 require 'pry'
 
 class Parse
-  attr_accessor :data, :file
+  attr_reader :data, :file, :district, :district_data, :path
 
-  DATA_DIR = "./data/"
-
-  def initialize
+  def initialize(path)
     @data = data
     @file = file
+    @path = path
+    @district = district
+    @district_data = []
   end
 
-  def parse
-    contents = CSV.read((File.join(DATA_DIR, @file)), headers: true, header_converters: :symbol).map { |row| row.to_h }
+  def file_names
+    file_names = []
+    Dir.foreach(path) { |file| file_names << file }
+    file_names.shift
+    file_names.shift
+    file_names
+  end
 
-    grouped = contents.group_by do |hash|
-      hash.fetch(:location)
+  def parse(district)
+    file_names.each do |file|
+      file_path = File.join(path, file)
+      contents = CSV.read(file_path, headers: true, header_converters: :symbol).map { |row| row.to_h }
+      @district_data << contents.find_all { |hash| hash[:location] == district}
     end
-
-  #   ac = grouped.fetch("ACADEMY 20")
-  #   ac_2012 = ac.find { |hash| hash[:timeframe] == "2012" }[:data]
-  #   binding.pry
+    return district_data
+    # district data here is an array, of arrays of hashes which correspond to each row of CSVs
+    # for just one district
   end
 
 end
 
-# info = Parse.new("Pupil enrollment.csv")
-# info.parse
+path = File.expand_path("../data", __dir__)
+data = Parse.new(path)
+data.parse("ACADEMY 20")
+binding.pry
