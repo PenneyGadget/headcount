@@ -1,4 +1,14 @@
 Location,Category,TimeFrame,DataFormat,Data
+ACADEMY 20,All Students,2011,Percent,0.002
+ACADEMY 20,Female Students,2011,Percent,0.002
+ACADEMY 20,Male Students,2011,Percent,0.002
+ACADEMY 20,Native American Students,2011,Percent,0
+ACADEMY 20,Asian Students,2011,Percent,0
+ACADEMY 20,Black Students,2011,Percent,0
+ACADEMY 20,Hispanic Students,2011,Percent,0.004
+ACADEMY 20,White Students,2011,Percent,0.002
+ACADEMY 20,Native Hawaiian or Other Pacific Islander,2011,Percent,0
+ACADEMY 20,Two or More Races,2011,Percent,0
 ACADEMY 20,All Students,2012,Percent,0.004
 ACADEMY 20,Asian Students,2012,Percent,0.007
 ACADEMY 20,Black Students,2012,Percent,0.002
