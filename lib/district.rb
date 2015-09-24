@@ -1,22 +1,27 @@
-require 'parse'
+require_relative 'economic_profile'
 require 'csv'
 
-class District < Parse
+class District
+  attr_accessor :district_data
 
-  def name
-    # ???
+  def initialize(district_data)
+    @district_data = district_data
   end
 
-  def statewide_testing
-    # ???
-  end
-
-  def enrollment
-    # ???
-  end
-
-  # def economic_profile
-  #
+  # def name
+  #   # case insensitive - check on casing
   # end
+
+  # def statewide_testing
+  #   StatewideTesting.new
+  # end
+  #
+  # def enrollment
+  #   Enrollment.new
+  # end
+  #
+  def economic_profile
+    EconomicProfile.new(district_data)
+  end
 
 end
