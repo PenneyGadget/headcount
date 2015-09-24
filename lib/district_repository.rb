@@ -1,18 +1,29 @@
 require 'csv'
 require 'pry'
 require_relative 'parse'
+require_relative 'district'
 
-class DistrictRepository < Parse
-  attr_reader :data
+class DistrictRepository
+  attr_accessor :district_data, :path, :district_instance
 
-  def initialize
-    @data = []
+  def initialize(path)
+    @path = path
+    @district_data = Parse.new(path).parse("ACADEMY 20")
+    @district_instance = District.new(district_data)
   end
 
   def self.from_csv(path)
-    district_data = Parse.new(path)
-    district_data.parse("ACADEMY 20")
+    DistrictRepository.new(path)
   end
+
+  # def self.from_json(path)
+  #   skip
+  # end
+
+  def find_by_name(district)
+    district_instance
+  end
+
 
   # def districts
   #   data = CSV.read(('./data/Pupil enrollment.csv'), headers: true, header_converters: :symbol).map { |row| row.to_h }
@@ -47,5 +58,5 @@ end
 
 path = File.expand_path("../data", __dir__)
 repository = DistrictRepository.from_csv(path)
+district = repository.find_by_name("ACADEMY 20")
 binding.pry
-# dr.from_csv("ACADEMY 20")

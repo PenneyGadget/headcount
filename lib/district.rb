@@ -1,22 +1,26 @@
-require 'parse'
+require 'economic_profile'
 require 'csv'
 
-class District < Parse
+class District
 
-  def name
-    # ???
+  def initialize(district)
+    @district = district
   end
 
-  def statewide_testing
-    # ???
-  end
-
-  def enrollment
-    # ???
-  end
-
-  # def economic_profile
-  #
+  # def name
+  #   # case insensitive - check on casing
   # end
+
+  # def statewide_testing
+  #   StatewideTesting.new
+  # end
+  #
+  # def enrollment
+  #   Enrollment.new
+  # end
+  #
+  def economic_profile
+    EconomicProfile.new
+  end
 
 end

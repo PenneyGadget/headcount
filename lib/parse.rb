@@ -29,8 +29,8 @@ class Parse
       district_file_data = {"#{file_name}" => contents.find_all { |hash| hash[:location] == district}}
       district_data << district_file_data
     end
-    binding.pry
-    return district_data
+    district_data_hash = district_data.inject({}, :merge)
+    return district_data_hash
     # district data here is an array, of arrays of hashes which correspond to each row of CSVs
     # for just one district
   end
