@@ -4,12 +4,11 @@ require_relative 'parse'
 require_relative 'district'
 
 class DistrictRepository
-  attr_accessor :district_data, :path, :district_instance
+  attr_accessor :district_data, :path
 
   def initialize(path)
     @path = path
-    @district_data = Parse.new(path).parse("ACADEMY 20")
-    @district_instance = District.new(district_data)
+    @district_data = district_data
   end
 
   def self.from_csv(path)
@@ -20,10 +19,27 @@ class DistrictRepository
   #   skip
   # end
 
-  def find_by_name(district)
-    district_instance
+  def create_district(district_data)
+    District.new(district_data)
   end
 
+  def find_by_name(district)
+    district_data = Parse.new(path).parse(district)
+    if district_data.present?
+      create_district(district_data)
+    else
+      nil
+    end
+  end
+
+  # def find_all_matching(name)
+  #   # ???
+  #   if district_data.empty?
+  #     []
+  #   else
+  #     # ???
+  #   end
+  # end
 
   # def districts
   #   data = CSV.read(('./data/Pupil enrollment.csv'), headers: true, header_converters: :symbol).map { |row| row.to_h }
@@ -56,7 +72,7 @@ class DistrictRepository
 
 end
 
-path = File.expand_path("../data", __dir__)
-repository = DistrictRepository.from_csv(path)
-district = repository.find_by_name("ACADEMY 20")
-binding.pry
+# path = File.expand_path("../data", __dir__)
+# repository = DistrictRepository.from_csv(path)
+# district = repository.find_by_name("ACADEMY 20")
+# frl_test = district.economic_profile.free_or_reduced_lunch_in_year(2012)

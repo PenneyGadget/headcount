@@ -1,10 +1,11 @@
-require 'economic_profile'
+require_relative 'economic_profile'
 require 'csv'
 
 class District
+  attr_accessor :district_data
 
-  def initialize(district)
-    @district = district
+  def initialize(district_data)
+    @district_data = district_data
   end
 
   # def name
@@ -20,7 +21,7 @@ class District
   # end
   #
   def economic_profile
-    EconomicProfile.new
+    EconomicProfile.new(district_data)
   end
 
 end
