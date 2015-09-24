@@ -22,10 +22,14 @@ class Parse
 
   def parse(district)
     file_names.each do |file|
+      csv_file_name = "#{file}"
+      file_name = csv_file_name[0..-5]
       file_path = File.join(path, file)
       contents = CSV.read(file_path, headers: true, header_converters: :symbol).map { |row| row.to_h }
-      @district_data << contents.find_all { |hash| hash[:location] == district}
+      district_file_data = {"#{file_name}" => contents.find_all { |hash| hash[:location] == district}}
+      district_data << district_file_data
     end
+    binding.pry
     return district_data
     # district data here is an array, of arrays of hashes which correspond to each row of CSVs
     # for just one district
@@ -36,4 +40,3 @@ end
 path = File.expand_path("../data", __dir__)
 data = Parse.new(path)
 data.parse("ACADEMY 20")
-binding.pry
