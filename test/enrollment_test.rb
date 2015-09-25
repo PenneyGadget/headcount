@@ -1,13 +1,13 @@
-equire 'minitest/autorun'
+require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/enrollment'
-
+require './lib/district_repository'
 
 class EnrollmentTest < Minitest::Test
 
-  def setup
-
-  end
+  # def setup
+  #   skip
+  # end
 
   def test_dropout_rate_in_year_method_takes_valid_parameter
     skip
@@ -25,11 +25,13 @@ class EnrollmentTest < Minitest::Test
     assert_equal expected, @enrollment.dropout_rate_in_year(1980)
   end
 
-  def test_dropout_rate_in_year_method_returns_truncated_three_digit_percentage_float
-    skip
-    expected = 0.680
+  def test_dropout_rate_in_year_method
+    path = File.expand_path("../data", __dir__)
+    repository = DistrictRepository.from_csv(path)
+    district = repository.find_by_name("ACADEMY 20")
+    # enrollment = Enrollment.new(district_data)
 
-    assert_equal expected, @enrollment.dropout_rate_in_year(2012)
+    assert_equal 0.004, district.enrollment.dropout_rate_in_year(2012)
   end
 
   def test_dropout_rate_by_gender_in_year_method_takes_valid_parameter

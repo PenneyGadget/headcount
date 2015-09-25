@@ -16,11 +16,11 @@ class District
   end
 
   def statewide_testing
-    StatewideTesting.new
+    StatewideTesting.new(district_data)
   end
 
   def enrollment
-    Enrollment.new
+    Enrollment.new(district_data)
   end
 
   def economic_profile
