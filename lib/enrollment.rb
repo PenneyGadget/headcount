@@ -13,13 +13,13 @@ class Enrollment
                                                      k == "Pupil enrollment" ||
                                                      k == "Special education" ||
                                                      k == "Remediation in higher education" }
-    @race_table = {"Asian Students" => :asian,
-                   "Black Students" => :black,
-                   "Native Hawaiian or Other Pacific Islander" => :pacific_islander,
-                   "Hispanic Students" => :hispanic,
-                   "Native American Students" => :native_american,
-                   "Two or More Races" => :two_or_more,
-                   "White Students" => :white}
+    @race_table = {asian: "Asian Students",
+                   black: "Black Students",
+                   pacific_islander: "Native Hawaiian or Other Pacific Islander",
+                   hispanic: "Hispanic Students",
+                   native_american: "Native American Students",
+                   two_or_more: "Two or More Races",
+                   white: "White Students"}
   end
 
   # receives integer, returns percentage of all students for a specific district
@@ -65,9 +65,23 @@ class Enrollment
 
   # receives symbol, returns year/percentage hash
   def dropout_rate_for_race_or_ethnicity(race)
+    race_id = ""
+    if @race_table.has_key?(race)
+      race_id = @race_table[race]
+    end
     dropout_rate = enrollment_data.select { |k, v| k == "Dropout rates by race and ethnicity" }
     dropout_rate_data = dropout_rate["Dropout rates by race and ethnicity"]
     dropout_rate_select_data = dropout_rate_data.find_all { |hash| hash[:category] != "All Students" && hash[:category] != "Female Students" && hash[:category] != "Male Students" && hash[:timeframe] && hash[:data] }
+    asian = dropout_rate_select_data.map { |row| asian = row if row.values.include?("Asian Students") }.compact
+    black = dropout_rate_select_data.map { |row| black = row if row.values.include?("Black Students") }.compact
+    pacific_islander = dropout_rate_select_data.map { |row| pacific_islander = row if row.values.include?("Native Hawaiian or Other Pacific Islander") }.compact
+    hispanic = dropout_rate_select_data.map { |row| hispanic = row if row.values.include?("Hispanic Students") }.compact
+    native_american = dropout_rate_select_data.map { |row| native_american = row if row.values.include?("Native American Students") }.compact
+    two_or_more = dropout_rate_select_data.map { |row| two_or_more = row if row.values.include?("Two or More Races") }.compact
+    white = dropout_rate_select_data.map { |row| white = row if row.values.include?("White Students") }.compact
+    # asian_data = {}
+    # asian.map! { |hash| asian_data.merge!({hash[:timeframe] => hash[:data]}) }
+
     binding.pry
   end
 
