@@ -70,12 +70,6 @@ class EnrollmentTest < Minitest::Test
     assert_equal expected, @district.enrollment.dropout_rate_for_race_or_ethnicity(:asian)
   end
 
-  # def test_dropout_rate_for_race_or_ethnicity_in_year_takes_valid_two_parameters
-  #   skip
-  #   #should return race as a symbol from: [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
-  #   #year as an integer
-  # end
-  #
   # def test_dropout_rate_for_race_or_ethnicity_in_year_returns_nil_with_any_unknown_year
   #   skip
   #   expected = nil
@@ -103,26 +97,20 @@ class EnrollmentTest < Minitest::Test
   #
   #   assert_equal expected, @district.enrollment.graduation_rate_by_year
   # end
-  #
-  # def test_graduation_rate_in_year_method_takes_valid_parameter
-  #   skip
-  #   #should take in year as an integer
-  # end
-  #
+
   # def test_graduation_rate_in_year_method_returns_nil_with_any_unknown_year
   #   skip
   #   expected = nil
   #
   #   assert_equal expected, @district.enrollment.graduation_rate_in_year(1937)
   # end
-  #
-  # def test_graduation_rate_in_year_method_returns_three_digit_percentage_float
-  #   skip
-  #   expected = 0.895
-  #
-  #   assert_equal expected, @district.enrollment.graduation_rate_in_year(2010)
-  # end
-  #
+
+  def test_graduation_rate_in_year_method_returns_three_digit_percentage_float
+    expected = 0.895
+
+    assert_equal expected, @district.enrollment.graduation_rate_in_year(2010)
+  end
+
   # def test_kindergarten_participation_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
   #   skip
   #   expected = { 2010 => 0.391,
@@ -134,26 +122,20 @@ class EnrollmentTest < Minitest::Test
   #
   #   assert_equal expected, @district.enrollment.kindergarten_participation_by_year
   # end
-  #
-  # def test_kindergarten_participation_in_year_method_takes_valid_parameter
-  #   skip
-  #   #should take in year as an integer
-  # end
-  #
+
   # def test_kindergarten_participation_in_year_method_returns_nil_with_any_unknown_year
   #   skip
   #   expected = nil
   #
   #   assert_equal expected, @district.enrollment.kindergarten_participation_in_year(1999)
   # end
-  #
-  # def test_kindergarten_participation_in_year_method_returns_three_digit_percentage_float
-  #   skip
-  #   expected = 0.391
-  #
-  #   assert_equal expected, @district.enrollment.kindergarten_participation_in_year(2010)
-  # end
-  #
+
+  def test_kindergarten_participation_in_year_method_returns_three_digit_percentage_float
+    expected = 0.436
+
+    assert_equal expected, @district.enrollment.kindergarten_participation_in_year(2010)
+  end
+
   # def test_online_participation_by_year_method_returns_a_hash_with_years_as_keys_and_an_integer_as_value
   #   skip
   #   expected = { 2010 => 16,
@@ -165,26 +147,20 @@ class EnrollmentTest < Minitest::Test
   #
   #   assert_equal expected, @district.enrollment.online_participation_by_year
   # end
-  #
-  # def test_online_participation_in_year_method_takes_valid_parameter
-  #   skip
-  #   #should take in year as an integer
-  # end
-  #
+
   # def test_online_participation_in_year_method_returns_nil_with_any_unknown_year
   #   skip
   #   expected = nil
   #
   #   assert_equal nil, @district.enrollment.online_participation_in_year(1990)
   # end
-  #
-  # def test_online_participation_in_year_method_returns_a_single_integer
-  #   skip
-  #   expected = 33
-  #
-  #   assert_equal expected, @district.enrollment.online_participation_in_year(2013)
-  # end
-  #
+
+  def test_online_participation_in_year_method_returns_a_single_integer
+    expected = 341
+
+    assert_equal expected, @district.enrollment.online_participation_in_year(2013)
+  end
+
   # def test_participation_by_year_method_returns_a_hash_with_years_as_keys_and_an_integer_as_value
   #   skip
   #   expected = { 2009 => 22620,
@@ -197,31 +173,20 @@ class EnrollmentTest < Minitest::Test
   #
   #   assert_equal expected, @district.enrollment.participation_by_year
   # end
-  #
-  # def test_participation_in_year_method_takes_valid_parameter
-  #   skip
-  #   #takes in year as an integer
-  # end
-  #
+
   # def test_participation_in_year_method_returns_nil_with_any_unknown_year
   #   skip
   #   expected = nil
   #
   #   assert_equal expected, @district.enrollment.participation_in_year(1650)
   # end
-  #
-  # def test_participation_in_year_method_returns_returns_a_single_integer
-  #   skip
-  #   expected = 23973
-  #
-  #   assert_equal expected, @district.enrollment.participation_in_year(2013)
-  # end
-  #
-  # def test_participation_by_race_or_ethnicity_method_takes_valid_parameter
-  #   skip
-  #   #should take in race as a symbol from: [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
-  # end
-  #
+
+  def test_participation_in_year_method_returns_returns_a_single_integer
+    expected = 24481
+
+    assert_equal expected, @district.enrollment.participation_in_year(2013)
+  end
+
   # def test_participation_by_race_or_ethnicity_raises_an_error_with_any_unknown_race
   #   skip
   #   assert_raises UnknownRaceError do
@@ -239,12 +204,7 @@ class EnrollmentTest < Minitest::Test
   #
   #   assert_equal expected, @district.enrollment.participation_by_race_or_ethinicity(:asian)
   # end
-  #
-  # def test_participation_by_race_or_ethnicity_in_year_method_takes_valid_paramter
-  #   skip
-  #   #takes in year as an integer
-  # end
-  #
+
   # def test_participation_by_race_or_ethnicity_in_year_method_returns_nil_with_any_unknown_year
   #   skip
   #   expected = nil
@@ -253,7 +213,6 @@ class EnrollmentTest < Minitest::Test
   # end
   #
   # def test_participation_by_race_or_ethnicity_in_year_method_returns_a_hash_with_race_as_keys_and_three_digit_percentage_float
-  #   skip
   #   expected =  { :asian => 0.036,
   #                 :black => 0.029,
   #                 :pacific_islander => 0.118,
@@ -265,7 +224,7 @@ class EnrollmentTest < Minitest::Test
   #
   #   assert_equal expected, @district.enrollment.participation_by_race_or_ethinicity_in_year(2012)
   # end
-  #
+
   # def test_special_education_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
   #   skip
   #   expected = { 2009 => 0.075,
@@ -278,26 +237,20 @@ class EnrollmentTest < Minitest::Test
   #
   #   assert_equal expected, @district.enrollment.special_education_by_year
   # end
-  #
-  # def test_special_education_in_year_method_takes_valid_parameter
-  #   skip
-  #   #should take in year as integer
-  # end
-  #
+
   # def test_special_education_in_year_method_returns_nil_with_any_unknown_year
   #   skip
   #   expected = nil
   #
   #   assert_equal nil, @district.enrollment.special_education_in_year(2020)
   # end
-  #
-  # def test_special_education_in_year_method_returns_three_digit_percentage_float
-  #   skip
-  #   expected = 0.105
-  #
-  #   assert_equal expected, @district.enrollment.special_education_in_year(2013)
-  # end
-  #
+
+  def test_special_education_in_year_method_returns_three_digit_percentage_float
+    expected = 0.079
+
+    assert_equal expected, @district.enrollment.special_education_in_year(2013)
+  end
+
   # def test_remediation_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_float
   #   skip
   #   expected = { 2009 => 0.232,
@@ -307,24 +260,18 @@ class EnrollmentTest < Minitest::Test
   #
   #   assert_equal expected, @district.enrollment.remediation_by_year
   # end
-  #
-  # def test_remediation_in_year_method_takes_valid_parameter
-  #   skip
-  #   #takes in year as an integer
-  # end
-  #
+
   # def test_remediation_in_year_method_returns_nil_with_any_unknown_year
   #   skip
   #   expected = nil
   #
   #   assert_equal nil, @district.enrollment.remediation_in_year(2222)
   # end
-  #
-  # def test_remediation_in_year_method_returns_three_digit_percentage_float
-  #   skip
-  #   expected = 0.250
-  #
-  #   assert_equal expected, @district.enrollment.remediation_in_year(2010)
-  # end
+
+  def test_remediation_in_year_method_returns_three_digit_percentage_float
+    expected = 0.294
+
+    assert_equal expected, @district.enrollment.remediation_in_year(2010)
+  end
 
 end
