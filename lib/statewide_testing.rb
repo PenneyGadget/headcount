@@ -55,6 +55,9 @@ class StatewideTesting
     proficient_by_race_or_ethnicity(race)[year][subject]
   end
 
-  # still missing final/fifth method
+  def proficient_for_subject_in_year(subject, year)
+    # needs some kind of parameter validation
+    proficient_by_grade(grade)[year][subject]
+  end
 
 end
