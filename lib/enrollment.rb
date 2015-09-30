@@ -191,22 +191,38 @@ class Enrollment
     end
   end
 
+  # returns year/percentage hash
   def special_education_by_year
-
+    year = @special_education.map { |hash| hash.fetch(:timeframe).to_i }
+    data = @special_education.map { |hash| hash.fetch(:data) }
+    Hash[year.zip(data.map { |num| truncate(num) })]
   end
 
+  # receives integer, returns float
   def special_education_in_year(year)
-    special_education_select_data = @special_education.find_all { |hash| hash[:timeframe] == "#{year}" && hash[:data] }
-    truncate(special_education_select_data[0][:data])
+    if valid_year?(year)
+      special_education_select_data = @special_education.find_all { |hash| hash[:timeframe] == "#{year}" && hash[:data] }
+      truncate(special_education_select_data[0][:data])
+    else
+      nil
+    end
   end
 
+  # returns year/percentage hash
   def remediation_by_year
-
+    year = @remediation.map { |hash| hash.fetch(:timeframe).to_i }
+    data = @remediation.map { |hash| hash.fetch(:data) }
+    Hash[year.zip(data.map { |num| truncate(num) })]
   end
 
+  # receives integer, returns float
   def remediation_in_year(year)
-    pupil_enrollment_select_data = @remediation.find_all { |hash| hash[:timeframe] == "#{year}" && hash[:data] }
-    truncate(pupil_enrollment_select_data[0][:data])
+    if valid_year?(year)
+      pupil_enrollment_select_data = @remediation.find_all { |hash| hash[:timeframe] == "#{year}" && hash[:data] }
+      truncate(pupil_enrollment_select_data[0][:data])
+    else
+      nil
+    end
   end
 
 end

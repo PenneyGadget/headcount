@@ -117,8 +117,7 @@ class EnrollmentTest < Minitest::Test
   end
 
   def test_kindergarten_participation_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    assert_equal nil, @district.enrollment.kindergarten_participation_in_year(1999)
+    assert_equal nil, @district.enrollment.kindergarten_participation_in_year(1980)
   end
 
   def test_kindergarten_participation_in_year_method_returns_three_digit_percentage_float
@@ -189,8 +188,7 @@ class EnrollmentTest < Minitest::Test
   end
 
   def test_participation_by_race_or_ethnicity_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    assert_equal nil, @district.enrollment.participation_by_race_or_ethinicity_in_year(1900)
+    assert_equal nil, @district.enrollment.participation_by_race_or_ethnicity_in_year(1900)
   end
 
   def test_participation_by_race_or_ethnicity_in_year_method_returns_a_hash_with_race_as_keys_and_three_digit_percentage_float
@@ -206,25 +204,20 @@ class EnrollmentTest < Minitest::Test
     assert_equal expected, @district.enrollment.participation_by_race_or_ethnicity_in_year(2012)
   end
 
-  # def test_special_education_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
-  #   skip
-  #   expected = { 2009 => 0.075,
-  #                2010 => 0.078,
-  #                2011 => 0.072,
-  #                2012 => 0.071,
-  #                2013 => 0.070,
-  #                2014 => 0.068,
-  #              }
-  #
-  #   assert_equal expected, @district.enrollment.special_education_by_year
-  # end
+  def test_special_education_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
+    expected = { 2011 => 0.079,
+                 2012 => 0.078,
+                 2013 => 0.079,
+                 2010 => 0.078,
+                 2014 => 0.079
+               }
 
-  # def test_special_education_in_year_method_returns_nil_with_any_unknown_year
-  #   skip
-  #   expected = nil
-  #
-  #   assert_equal nil, @district.enrollment.special_education_in_year(2020)
-  # end
+    assert_equal expected, @district.enrollment.special_education_by_year
+  end
+
+  def test_special_education_in_year_method_returns_nil_with_any_unknown_year
+    assert_equal nil, @district.enrollment.special_education_in_year(2020)
+  end
 
   def test_special_education_in_year_method_returns_three_digit_percentage_float
     expected = 0.079
@@ -232,22 +225,18 @@ class EnrollmentTest < Minitest::Test
     assert_equal expected, @district.enrollment.special_education_in_year(2013)
   end
 
-  # def test_remediation_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_float
-  #   skip
-  #   expected = { 2009 => 0.232,
-  #                2010 => 0.251,
-  #                2011 => 0.278
-  #              }
-  #
-  #   assert_equal expected, @district.enrollment.remediation_by_year
-  # end
+  def test_remediation_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_float
+    expected = { 2011 => 0.263,
+                 2010 => 0.294,
+                 2009 => 0.264
+               }
 
-  # def test_remediation_in_year_method_returns_nil_with_any_unknown_year
-  #   skip
-  #   expected = nil
-  #
-  #   assert_equal nil, @district.enrollment.remediation_in_year(2222)
-  # end
+    assert_equal expected, @district.enrollment.remediation_by_year
+  end
+
+  def test_remediation_in_year_method_returns_nil_with_any_unknown_year
+    assert_equal nil, @district.enrollment.remediation_in_year(2223)
+  end
 
   def test_remediation_in_year_method_returns_three_digit_percentage_float
     expected = 0.294
