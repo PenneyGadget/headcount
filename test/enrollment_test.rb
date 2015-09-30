@@ -11,25 +11,24 @@ class EnrollmentTest < Minitest::Test
     @district = repository.find_by_name("ACADEMY 20")
   end
 
-  # def test_dropout_rate_in_year_method_returns_nil_for_unknown_years
-  # skip
-  #   assert_equal nil, @district.enrollment.dropout_rate_in_year(232323322332)
-  #
-  #   assert_equal nil, @district.enrollment.dropout_rate_in_year(1980)
-  # end
+  def test_dropout_rate_in_year_method_returns_nil_for_unknown_years
+    assert_equal nil, @district.enrollment.dropout_rate_in_year(232323322332)
+
+    assert_equal nil, @district.enrollment.dropout_rate_in_year(1980)
+  end
 
   def test_dropout_rate_in_year_method_returns_three_digit_percentage
     expected = 0.004
 
     assert_equal expected, @district.enrollment.dropout_rate_in_year(2012)
   end
-  #
-  # def test_dropout_rate_by_gender_in_year_method_returns_nil_for_unknown_years
-  #   skip
-  #   assert_equal nil, @district.enrollment.dropout_rate_by_gender_in_year(232323322332)
-  #
-  #   assert_equal nil, @district.enrollment.dropout_rate_by_gender_in_year(1980)
-  # end
+
+  def test_dropout_rate_by_gender_in_year_method_returns_nil_for_unknown_years
+    skip
+    assert_equal nil, @district.enrollment.dropout_rate_by_gender_in_year(232323322332)
+
+    assert_equal nil, @district.enrollment.dropout_rate_by_gender_in_year(1980)
+  end
 
   def test_dropout_rate_by_gender_in_year_method_returns_hash_with_genders_as_keys_and_three_digit_percentage_floats
     expected = {:female => 0.002, :male => 0.002}
