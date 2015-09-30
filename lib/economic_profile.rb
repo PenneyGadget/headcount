@@ -4,10 +4,6 @@ class EconomicProfile
 
   def initialize(district_data)
     @district_data = district_data
-    # @economic_profile_data = district_data.select { |k, v| k == "Median household income" ||
-    #                                                        k == "School-aged children in poverty" ||
-    #                                                        k == "Students qualifying for free or reduced price lunch" ||
-    #                                                        k == "Title I students" }
     @title_one_students = district_data["Title I students"]
     @school_children_poverty = district_data["School-aged children in poverty"]
     @students_frl = district_data["Students qualifying for free or reduced price lunch"]

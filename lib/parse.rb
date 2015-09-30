@@ -14,9 +14,7 @@ class Parse
 
   def file_names
     file_names = []
-    Dir.foreach(path) { |file| file_names << file }
-    file_names.shift
-    file_names.shift
+    Dir.foreach(path) { |file| file_names << file if file[-3..-1] == "csv" }
     file_names
   end
 
