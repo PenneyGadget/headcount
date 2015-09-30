@@ -6,7 +6,7 @@ require './lib/district'
 class DistrictTest < Minitest::Test
 
   def setup
-    
+    skip
   end
 
   def test_name_method_returns_the_upcased_string_name_of_the_district

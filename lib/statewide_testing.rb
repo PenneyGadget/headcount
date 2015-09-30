@@ -21,23 +21,14 @@ class StatewideTesting
   end
 
   def proficient_by_grade(grade)
-    eh = {}
     if grade == 3
       tg = third_grade_scores.group_by { |hash| hash[:timeframe].to_i }.map { |k,v| [k,v] }.to_h
-      binding.pry
-
-      third_grade_scores.each { |hash| eh[hash[:timeframe].to_i] = {} }
-      third_grade_scores.each { |hash| eh[hash[:timeframe].to_i][:math] = truncate(hash[:data]) }
-      third_grade_scores.each { |hash| eh[hash[:timeframe].to_i][:reading] = truncate(hash[:data]) }
-      third_grade_scores.each { |hash| eh[hash[:timeframe].to_i][:writing] = truncate(hash[:data]) }
-      eh
+      tg.map { |k,v| [k, v.map { |h| [h[:score].downcase.to_sym, h[:data].to_f] }.to_h] }.to_h
     elsif grade == 8
-      eighth_grade_scores.each { |hash| eh[hash[:timeframe].to_i] = {:math => truncate(hash[:data])} }
-      eighth_grade_scores.each { |hash| eh[hash[:timeframe].to_i][:reading] = truncate(hash[:data]) }
-      eighth_grade_scores.each { |hash| eh[hash[:timeframe].to_i][:writing] = truncate(hash[:data]) }
-      eh
+      eg = eighth_grade_scores.group_by { |hash| hash[:timeframe].to_i }.map { |k,v| [k,v] }.to_h
+      eg.map { |k,v| [k, v.map { |h| [h[:score].downcase.to_sym, h[:data].to_f] }.to_h] }.to_h
     else
-      raise UnknownDataError
+      fail UnknownDataError
     end
   end
 
