@@ -179,9 +179,9 @@ class EnrollmentTest < Minitest::Test
                  2009 => 0.055,
                  2010 => 0.04,
                  2011 => 0.036,
-                 2012 => 914.0,
-                 2013 => 932.0,
-                 2014 => 933.0
+                 2012 => 0.038,
+                 2013 => 0.038,
+                 2014 => 0.037
                }
 
     assert_equal expected, @district.enrollment.participation_by_race_or_ethnicity(:asian)

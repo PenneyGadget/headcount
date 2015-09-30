@@ -164,7 +164,7 @@ class Enrollment
     fail UnknownRaceError unless valid_race?(race)
     category = @race_table.select { |k, v| k if v == race }.keys
     @pupil_enrollment_race.select do |row|
-      row[:race] == category.first
+      row[:race] == category.first && row[:dataformat] == "Percent"
     end.map { |row| [row[:timeframe].to_i, truncate(row[:data])] }.to_h
   end
 
