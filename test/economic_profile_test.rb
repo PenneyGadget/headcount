@@ -41,6 +41,7 @@ class EconomicProfileTest < Minitest::Test
     expected = nil
 
     assert_equal expected, @district.economic_profile.free_or_reduced_lunch_in_year(2030)
+    assert_equal expected, @district.economic_profile.free_or_reduced_lunch_in_year(3232323238907897897)
   end
 
   def test_school_aged_children_in_poverty_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
@@ -57,7 +58,7 @@ class EconomicProfileTest < Minitest::Test
                  2007 => 0.039,
                  2008 => 0.044,
                  2009 => 0.047,
-                 2010 => 0.058,
+                 2010 => 0.057,
                  2011 => 0.059,
                  2012 => 0.064,
                  2013 => 0.048,
@@ -89,7 +90,7 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_title_1_students_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
-    expected = {2009 => 0.014, 2011 => 0.011, 2012 => 0.011, 2013 => 0.012, 2014 => 0.027}
+    expected = {2009 => 0.014, 2011 => 0.011, 2012 => 0.01, 2013 => 0.012, 2014 => 0.027}
 
     assert_equal expected, @district.economic_profile.title_1_students_by_year
   end
@@ -111,7 +112,7 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_title_1_students_in_year_method_returns_three_digit_percentage_float
-    expected = 0.011
+    expected = 0.01
 
     assert_equal expected, @district.economic_profile.title_1_students_in_year(2012)
   end
