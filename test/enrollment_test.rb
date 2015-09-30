@@ -1,133 +1,84 @@
-equire 'minitest/autorun'
+require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/enrollment'
-
+require './lib/district_repository'
 
 class EnrollmentTest < Minitest::Test
 
   def setup
-
+    path = File.expand_path("../data", __dir__)
+    repository = DistrictRepository.from_csv(path)
+    @district = repository.find_by_name("ACADEMY 20")
   end
 
-  def test_dropout_rate_in_year_method_takes_valid_parameter
-    skip
-    #should take in year as an integer
+  def test_dropout_rate_in_year_method_returns_nil_for_unknown_years
+    assert_equal nil, @district.enrollment.dropout_rate_in_year(232323322332)
+
+    assert_equal nil, @district.enrollment.dropout_rate_in_year(1980)
   end
 
-  def test_dropout_rate_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
+  def test_dropout_rate_in_year_method_returns_three_digit_percentage
+    expected = 0.004
 
-    assert_equal expected, @enrollment.dropout_rate_in_year(0000)
-
-    assert_equal expected, @enrollment.dropout_rate_in_year(" ")
-
-    assert_equal expected, @enrollment.dropout_rate_in_year(1980)
+    assert_equal expected, @district.enrollment.dropout_rate_in_year(2012)
   end
 
-  def test_dropout_rate_in_year_method_returns_truncated_three_digit_percentage_float
-    skip
-    expected = 0.680
+  def test_dropout_rate_by_gender_in_year_method_returns_nil_for_unknown_years
+    assert_equal nil, @district.enrollment.dropout_rate_by_gender_in_year(232323322332)
 
-    assert_equal expected, @enrollment.dropout_rate_in_year(2012)
-  end
-
-  def test_dropout_rate_by_gender_in_year_method_takes_valid_parameter
-    skip
-    #should take in year as an integer
-  end
-
-  def test_dropout_rate_by_gender_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
-
-    assert_equal expected, @enrollment.dropout_rate_by_gender_in_year(0000)
-
-    assert_equal expected, @enrollment.dropout_rate_by_gender_in_year(" ")
-
-    assert_equal expected, @enrollment.dropout_rate_by_gender_in_year(1980)
+    assert_equal nil, @district.enrollment.dropout_rate_by_gender_in_year(1980)
   end
 
   def test_dropout_rate_by_gender_in_year_method_returns_hash_with_genders_as_keys_and_three_digit_percentage_floats
-    skip
     expected = {:female => 0.002, :male => 0.002}
 
-    assert_equal expected, @enrollment.dropout_rate_by_gender_in_year(2012)
-  end
-
-  def test_dropout_rate_by_race_in_year_method_takes_valid_parameter
-    skip
-    #should take in year as an integer
+    assert_equal expected, @district.enrollment.dropout_rate_by_gender_in_year(2011)
   end
 
   def test_dropout_rate_by_race_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
+    assert_equal nil, @district.enrollment.dropout_rate_by_race_in_year(36485968)
 
-    assert_equal expected, @enrollment.dropout_rate_by_race_in_year(0000)
-
-    assert_equal expected, @enrollment.dropout_rate_by_race_in_year(" ")
-
-    assert_equal expected, @enrollment.dropout_rate_by_race_in_year(1980)
+    assert_equal nil, @district.enrollment.dropout_rate_by_race_in_year(1980)
   end
 
   def test_dropout_rate_by_race_in_year_method_returns_hash_with_race_as_keys_and_three_digit_percentage_floats
-    skip
-    expected = { :asian => 0.001,
-                 :black => 0.001,
-                 :pacific_islander => 0.001,
-                 :hispanic => 0.001,
-                 :native_american => 0.001,
-                 :two_or_more => 0.001,
-                 :white => 0.001
+    expected = { asian: 0.007,
+                 black: 0.002,
+                 pacific_islander: 0.000,
+                 hispanic: 0.006,
+                 native_american: 0.036,
+                 two_or_more: 0.000,
+                 white: 0.004
                }
 
-    assert_equal expected, @enrollment.dropout_rate_by_race_in_year(2012)
-  end
-
-  def test_dropout_rate_for_race_or_ethnicity_method_takes_valid_parameter
-    skip
-    #should take in race as a symbol from: [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
+    assert_equal expected, @district.enrollment.dropout_rate_by_race_in_year(2012)
   end
 
   def test_dropout_rate_for_race_or_ethnicity_method_raises_an_error_with_unknown_race
-    skip
     assert_raises UnknownRaceError do
-      @enrollment.dropout_rate_for_race_or_ethnicity(:german)
+      @district.enrollment.dropout_rate_for_race_or_ethnicity(:german)
     end
   end
 
   def test_dropout_rate_for_race_or_ethnicity_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_float
-    skip
-    expected = [2011 => 0.047, 2012 => 0.041]
+    expected = {2011 => 0.000, 2012 => 0.007}
 
-    assert_equal expected, @enrollment.dropout_rate_for_race_or_ethnicity(:asian)
-  end
-
-  def test_dropout_rate_for_race_or_ethnicity_in_year_takes_valid_two_parameters
-    skip
-    #should return race as a symbol from: [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
-    #year as an integer
+    assert_equal expected, @district.enrollment.dropout_rate_for_race_or_ethnicity(:asian)
   end
 
   def test_dropout_rate_for_race_or_ethnicity_in_year_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
+    assert_equal nil, @district.enrollment.dropout_rate_for_race_or_ethnicity_in_year(:asian, 1940)
 
-    assert_equal expected, @enrollment.dropout_rate_for_race_or_ethnicity_in_year(:asian, 1940)
-
-    assert_equal expected, @enrollment.dropout_rate_for_race_or_ethnicity_in_year(:white, 666)
+    assert_equal nil, @district.enrollment.dropout_rate_for_race_or_ethnicity_in_year(:white, 666)
   end
 
   def test_dropout_rate_for_race_or_ethnicity_in_year_returns_three_digit_percentage_float
-    skip
-    expected = 0.001
+    expected = 0.007
 
-    assert_equal expected, @enrollment.dropout_rate_for_race_or_ethnicity_in_year(:asian, 2012)
+    assert_equal expected, @district.enrollment.dropout_rate_for_race_or_ethnicity_in_year(:asian, 2012)
   end
 
   def test_graduation_rate_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_float
-    skip
     expected = { 2010 => 0.895,
                  2011 => 0.895,
                  2012 => 0.889,
@@ -135,230 +86,162 @@ class EnrollmentTest < Minitest::Test
                  2014 => 0.898,
                }
 
-    assert_equal expected, @enrollment.graduation_rate_by_year
-  end
-
-  def test_graduation_rate_in_year_method_takes_valid_parameter
-    skip
-    #should take in year as an integer
+    assert_equal expected, @district.enrollment.graduation_rate_by_year
   end
 
   def test_graduation_rate_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
-
-    assert_equal expected, @enrollment.graduation_rate_in_year(1937)
+    assert_equal nil, @district.enrollment.graduation_rate_in_year(1937)
   end
 
   def test_graduation_rate_in_year_method_returns_three_digit_percentage_float
-    skip
     expected = 0.895
 
-    assert_equal expected, @enrollment.graduation_rate_in_year(2010)
+    assert_equal expected, @district.enrollment.graduation_rate_in_year(2010)
   end
 
   def test_kindergarten_participation_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
-    skip
-    expected = { 2010 => 0.391,
-                 2011 => 0.353,
-                 2012 => 0.267,
+    expected = { 2007 => 0.391,
+                 2006 => 0.353,
+                 2005 => 0.267,
+                 2004 => 0.302,
+                 2008 => 0.384,
+                 2009 => 0.39,
+                 2010 => 0.436,
+                 2011 => 0.489,
+                 2012 => 0.478,
                  2013 => 0.487,
-                 2014 => 0.490,
+                 2014 => 0.490
                }
 
-    assert_equal expected, @enrollment.kindergarten_participation_by_year
-  end
-
-  def test_kindergarten_participation_in_year_method_takes_valid_parameter
-    skip
-    #should take in year as an integer
+    assert_equal expected, @district.enrollment.kindergarten_participation_by_year
   end
 
   def test_kindergarten_participation_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
-
-    assert_equal expected, @enrollment.kindergarten_participation_in_year(1999)
+    assert_equal nil, @district.enrollment.kindergarten_participation_in_year(1980)
   end
 
   def test_kindergarten_participation_in_year_method_returns_three_digit_percentage_float
-    skip
-    expected = 0.391
+    expected = 0.436
 
-    assert_equal expected, @enrollment.kindergarten_participation_in_year(2010)
+    assert_equal expected, @district.enrollment.kindergarten_participation_in_year(2010)
   end
 
   def test_online_participation_by_year_method_returns_a_hash_with_years_as_keys_and_an_integer_as_value
-    skip
-    expected = { 2010 => 16,
-                 2011 => 18,
-                 2012 => 24,
-                 2013 => 32,
-                 2014 => 40,
+    expected = { 2011 => 33.0,
+                 2012 => 35.0,
+                 2013 => 341.0
                }
 
-    assert_equal expected, @enrollment.online_participation_by_year
-  end
-
-  def test_online_participation_in_year_method_takes_valid_parameter
-    skip
-    #should take in year as an integer
+    assert_equal expected, @district.enrollment.online_participation_by_year
   end
 
   def test_online_participation_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
-
-    assert_equal nil, @enrollment.online_participation_in_year(1990)
+    assert_equal nil, @district.enrollment.online_participation_in_year(1990)
   end
 
   def test_online_participation_in_year_method_returns_a_single_integer
-    skip
-    expected = 33
+    expected = 341
 
-    assert_equal expected, @enrollment.online_participation_in_year(2013)
+    assert_equal expected, @district.enrollment.online_participation_in_year(2013)
   end
 
   def test_participation_by_year_method_returns_a_hash_with_years_as_keys_and_an_integer_as_value
-    skip
-    expected = { 2009 => 22620,
-                 2010 => 22620,
-                 2011 => 23119,
-                 2012 => 23657,
-                 2013 => 23973,
-                 2014 => 24578,
+    expected = { 2009 => 22620.0,
+                 2010 => 23119.0,
+                 2011 => 23657.0,
+                 2012 => 23973.0,
+                 2013 => 24481.0,
+                 2014 => 24578.0
                }
 
-    assert_equal expected, @enrollment.participation_by_year
-  end
-
-  def test_participation_in_year_method_takes_valid_parameter
-    skip
-    #takes in year as an integer
+    assert_equal expected, @district.enrollment.participation_by_year
   end
 
   def test_participation_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
-
-    assert_equal expected, @enrollment.participation_in_year(1650)
+    assert_equal nil, @district.enrollment.participation_in_year(1650)
   end
 
   def test_participation_in_year_method_returns_returns_a_single_integer
-    skip
-    expected = 23973
+    expected = 24481
 
-    assert_equal expected, @enrollment.participation_in_year(2013)
-  end
-
-  def test_participation_by_race_or_ethnicity_method_takes_valid_parameter
-    skip
-    #should take in race as a symbol from: [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
+    assert_equal expected, @district.enrollment.participation_in_year(2013)
   end
 
   def test_participation_by_race_or_ethnicity_raises_an_error_with_any_unknown_race
-    skip
     assert_raises UnknownRaceError do
-      @enrollment.participation_by_race_or_ethinicity(:nepalese)
+      @district.enrollment.participation_by_race_or_ethnicity(:nepalese)
     end
   end
 
   def test_participation_by_race_or_ethnicity_returns_a_hash_with_years_as_keys_and_three_digit_percentage_float
-    skip
-    expected = { 2011 => 0.047,
-                 2012 => 0.041,
-                 2013 => 0.052,
-                 2014 => 0.056
+    expected = { 2007 => 0.05,
+                 2008 => 0.054,
+                 2009 => 0.055,
+                 2010 => 0.04,
+                 2011 => 0.036,
+                 2012 => 914.0,
+                 2013 => 932.0,
+                 2014 => 933.0
                }
 
-    assert_equal expected, @enrollment.participation_by_race_or_ethinicity(:asian)
-  end
-
-  def test_participation_by_race_or_ethnicity_in_year_method_takes_valid_paramter
-    skip
-    #takes in year as an integer
+    assert_equal expected, @district.enrollment.participation_by_race_or_ethnicity(:asian)
   end
 
   def test_participation_by_race_or_ethnicity_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
-
-    assert_equal expected, @enrollment.participation_by_race_or_ethinicity_in_year(1900)
+    assert_equal nil, @district.enrollment.participation_by_race_or_ethnicity_in_year(1900)
   end
 
   def test_participation_by_race_or_ethnicity_in_year_method_returns_a_hash_with_race_as_keys_and_three_digit_percentage_float
-    skip
-    expected =  { :asian => 0.036,
-                  :black => 0.029,
-                  :pacific_islander => 0.118,
-                  :hispanic => 0.003,
-                  :native_american => 0.004,
-                  :two_or_more => 0.050,
-                  :white => 0.756
+    expected =  { native_american:  0.004,
+                  asian:            0.038,
+                  black:            0.031,
+                  hispanic:         0.121,
+                  pacific_islander: 0.004,
+                  two_or_more:      0.053,
+                  white:            0.750,
                  }
 
-    assert_equal expected, @enrollment.participation_by_race_or_ethinicity_in_year(2012)
+    assert_equal expected, @district.enrollment.participation_by_race_or_ethnicity_in_year(2012)
   end
 
   def test_special_education_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
-    skip
-    expected = { 2009 => 0.075,
+    expected = { 2011 => 0.079,
+                 2012 => 0.078,
+                 2013 => 0.079,
                  2010 => 0.078,
-                 2011 => 0.072,
-                 2012 => 0.071,
-                 2013 => 0.070,
-                 2014 => 0.068,
+                 2014 => 0.079
                }
 
-    assert_equal expected, @enrollment.special_education_by_year
-  end
-
-  def test_special_education_in_year_method_takes_valid_parameter
-    skip
-    #should take in year as integer
+    assert_equal expected, @district.enrollment.special_education_by_year
   end
 
   def test_special_education_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
-
-    assert_equal nil, @enrollment.special_education_in_year(2020)
+    assert_equal nil, @district.enrollment.special_education_in_year(2020)
   end
 
   def test_special_education_in_year_method_returns_three_digit_percentage_float
-    skip
-    expected = 0.105
+    expected = 0.079
 
-    assert_equal expected, @enrollment.special_education_in_year(2013)
+    assert_equal expected, @district.enrollment.special_education_in_year(2013)
   end
 
   def test_remediation_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_float
-    skip
-    expected = { 2009 => 0.232,
-                 2010 => 0.251,
-                 2011 => 0.278
+    expected = { 2011 => 0.263,
+                 2010 => 0.294,
+                 2009 => 0.264
                }
 
-    assert_equal expected, @enrollment.remediation_by_year
-  end
-
-  def test_remediation_in_year_method_takes_valid_parameter
-    skip
-    #takes in year as an integer
+    assert_equal expected, @district.enrollment.remediation_by_year
   end
 
   def test_remediation_in_year_method_returns_nil_with_any_unknown_year
-    skip
-    expected = nil
-
-    assert_equal nil, @enrollment.remediation_in_year(2222)
+    assert_equal nil, @district.enrollment.remediation_in_year(2223)
   end
 
   def test_remediation_in_year_method_returns_three_digit_percentage_float
-    skip
-    expected = 0.250
+    expected = 0.294
 
-    assert_equal expected, @enrollment.remediation_in_year(2010)
+    assert_equal expected, @district.enrollment.remediation_in_year(2010)
   end
 
 end
