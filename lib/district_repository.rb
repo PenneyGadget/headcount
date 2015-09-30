@@ -1,4 +1,3 @@
-require 'csv'
 require 'pry'
 require_relative 'parse'
 require_relative 'district'
@@ -15,10 +14,6 @@ class DistrictRepository
   def self.from_csv(path)
     DistrictRepository.new(path)
   end
-
-  # def self.from_json(path)
-  #   skip
-  # end
 
   def create_district(district_data, district_name)
     District.new(district_data, district_name)
@@ -45,8 +40,10 @@ class DistrictRepository
 
 end
 
-path = File.expand_path("../data", __dir__)
-repository = DistrictRepository.from_csv(path)
-district = repository.find_by_name("ACADEMY 20")
-
-# frl_test = district.economic_profile.free_or_reduced_lunch_in_year(2012)
+# path = File.expand_path("../data", __dir__)
+# repository = DistrictRepository.from_csv(path)
+# district = repository.find_by_name("ACADEMY 20")
+# # st_test = district.statewide_testing.proficient_by_grade(3)
+# # st_test = district.statewide_testing.proficient_for_subject_by_grade_in_year(:math, 3, 2008)
+# st_test = district.statewide_testing.proficient_by_race_or_ethnicity(:asian)
+# st_test = district.statewide_testing.proficient_for_subject_by_race_in_year(:math, :asian, 2012)

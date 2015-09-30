@@ -6,57 +6,45 @@ require './lib/district_repository'
 
 class EconomicProfileTest < Minitest::Test
 
-  def test_free_or_reduced_lunch_in_year
+  def setup
     path       = File.expand_path("../data", __dir__)
     repository = DistrictRepository.from_csv(path)
-    district   = repository.find_by_name("ACADEMY 20")
+    @district   = repository.find_by_name("ACADEMY 20")
+  end
 
-    assert_equal 0.125, district.economic_profile.free_or_reduced_lunch_in_year(2012)
-
-    # assert_equal 0.125, EconomicProfile.new({key: value}).free_or_reduced_lunch_in_year(2012)
+  def test_free_or_reduced_lunch_in_year
+    assert_equal 0.125, @district.economic_profile.free_or_reduced_lunch_in_year(2012)
   end
 
   def test_free_or_reduced_lunch_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
-    skip
-    expected = { 2000 => 0.020,
-                 2001 => 0.024,
-                 2002 => 0.027,
-                 2003 => 0.030,
-                 2004 => 0.034,
+    expected = { 2000 => 0.04,
+                 2001 => 0.047,
+                 2002 => 0.048,
+                 2003 => 0.06,
+                 2004 => 0.059,
                  2005 => 0.058,
-                 2006 => 0.041,
-                 2007 => 0.050,
-                 2008 => 0.061,
-                 2009 => 0.070,
-                 2010 => 0.079,
-                 2011 => 0.084,
+                 2006 => 0.072,
+                 2007 => 0.08,
+                 2008 => 0.093,
+                 2009 => 0.103,
+                 2010 => 0.113,
+                 2011 => 0.119,
                  2012 => 0.125,
-                 2013 => 0.091,
-                 2014 => 0.087,
+                 2013 => 0.131,
+                 2014 => 0.127,
                }
 
-    assert_equal expected, @economic_profile.free_or_reduced_lunch_by_year
-  end
-
-  def test_free_or_reduced_lunch_in_year_method_takes_valid_parameter
-    skip
-    #takes in year as integer
+    assert_equal expected, @district.economic_profile.free_or_reduced_lunch_by_year
   end
 
   def test_free_or_reduced_lunch_in_year_method_returns_nil_with_any_unknown_year
-    skip
     expected = nil
 
-    assert_equal expected, @economic_profile.free_or_reduced_lunch_in_year(2030)
-  end
-
-  def test_free_or_reduced_lunch_in_year_method_returns_three_digit_percentage_float
-    skip
-    #typo in spec
+    assert_equal expected, @district.economic_profile.free_or_reduced_lunch_in_year(2030)
+    assert_equal expected, @district.economic_profile.free_or_reduced_lunch_in_year(3232323238907897897)
   end
 
   def test_school_aged_children_in_poverty_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
-    skip
     expected = { 1995 => 0.032,
                  1997 => 0.035,
                  1999 => 0.032,
@@ -76,66 +64,57 @@ class EconomicProfileTest < Minitest::Test
                  2013 => 0.048,
                }
 
-    assert_equal expected, @economic_profile.school_aged_children_in_poverty_in_year
+    assert_equal expected, @district.economic_profile.school_aged_children_in_poverty_by_year
   end
 
   def test_school_aged_children_in_poverty_by_year_method_returns_an_empty_hash_if_district_data_is_not_present
-    skip
-    # expected = []
-    #
-    # assert_equal expected, something
-  end
+    path       = File.expand_path("../data", __dir__)
+    repository = DistrictRepository.from_csv(path)
+    district   = repository.find_by_name("not a district")
 
-  def test_school_aged_children_in_poverty_in_year_method_takes_valid_parameter
-    skip
-    #takes year as integer
+    expected = {}
+
+    assert_equal expected, district.economic_profile.school_aged_children_in_poverty_by_year
   end
 
   def test_school_aged_children_in_poverty_in_year_method_returns_nil_for_any_unknown_year
-    skip
     expected = nil
 
-    assert_equal expected, @economic_profile.school_aged_children_in_poverty_in_year(1111)
+    assert_equal expected, @district.economic_profile.school_aged_children_in_poverty_in_year(1111)
   end
 
   def test_school_aged_children_in_poverty_in_year_method_returns_three_digit_percentage_float
-    skip
     expected = 0.064
 
-    assert_equal expected, @economic_profile.school_aged_children_in_poverty_in_year(2012)
+    assert_equal expected, @district.economic_profile.school_aged_children_in_poverty_in_year(2012)
   end
 
   def test_title_1_students_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
-    skip
     expected = {2009 => 0.014, 2011 => 0.011, 2012 => 0.01, 2013 => 0.012, 2014 => 0.027}
 
-    assert_equal expected, @economic_profile.title_1_students_by_year
+    assert_equal expected, @district.economic_profile.title_1_students_by_year
   end
 
   def test_title_1_students_by_year_method_returns_an_empty_hash_if_the_district_data_is_not_present
-    skip
-    expected = []
+    path       = File.expand_path("../data", __dir__)
+    repository = DistrictRepository.from_csv(path)
+    district   = repository.find_by_name("not a district")
 
-    assert_equal expected, something
-  end
+    expected = {}
 
-  def test_title_1_students_in_year_method_takes_valid_parameter
-    skip
-    #takes year as an integer
+    assert_equal expected, district.economic_profile.title_1_students_by_year
   end
 
   def test_title_1_students_in_year_method_returns_nil_for_any_unknown_year
-    skip
     expected = nil
 
-    assert_equal expected, @economic_profile.title_1_students_in_year(3333)
+    assert_equal expected, @district.economic_profile.title_1_students_in_year(3333)
   end
 
   def test_title_1_students_in_year_method_returns_three_digit_percentage_float
-    skip
     expected = 0.01
 
-    assert_equal expected, @economic_profile.title_1_students_in_year(2012)
+    assert_equal expected, @district.economic_profile.title_1_students_in_year(2012)
   end
 
 end

@@ -6,7 +6,9 @@ require './lib/statewide_testing'
 class StatewideTestingTest < Minitest::Test
 
   def setup
-
+    path       = File.expand_path("../data", __dir__)
+    repository = DistrictRepository.from_csv(path)
+    district   = repository.find_by_name("ACADEMY 20")
   end
 
   def test_proficient_for_subject_by_grade_method_takes_valid_three_parameter
