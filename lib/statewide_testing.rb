@@ -69,6 +69,9 @@ class StatewideTesting
   end
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
+    if !year.between?(2008,2014)
+     raise UnknownDataError
+    end
     if valid_year?(year) && (grade == 3 || grade == 8) && (subject == :math || subject == :writing || subject == :reading)
       proficient_by_grade(grade)[year][subject]
     else
@@ -77,6 +80,9 @@ class StatewideTesting
   end
 
   def proficient_for_subject_by_race_in_year(subject, race, year)
+    if !year.between?(2011,2014)
+      raise UnknownDataError
+    end
     if valid_year?(year) && valid_race?(race) && (subject == :math || subject == :writing || subject == :reading)
       proficient_by_race_or_ethnicity(race)[year][subject]
     else
@@ -85,6 +91,9 @@ class StatewideTesting
   end
 
   def proficient_for_subject_in_year(subject, year)
+    if !year.between?(2011,2014)
+      raise UnknownDataError
+    end
     if valid_year?(year)
       if subject == :math
         m = math_by_race.find_all { |h| h[:race_ethnicity] == "All Students" && h[:timeframe] == "#{year}" }
