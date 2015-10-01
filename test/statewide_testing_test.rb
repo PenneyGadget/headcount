@@ -1,19 +1,22 @@
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/statewide_testing'
-
+require './lib/district_repository'
 
 class StatewideTestingTest < Minitest::Test
 
   def setup
-    path       = File.expand_path("../data", __dir__)
-    repository = DistrictRepository.from_csv(path)
-    district   = repository.find_by_name("ACADEMY 20")
+    repository  = StatewideTestingTest.make_district_repository
+    @district   = repository.find_by_name("ACADEMY 20")
+  end
+
+  def self.make_district_repository
+    repository  ||= DistrictRepository.from_csv(File.expand_path("../data", __dir__))
   end
 
   def test_proficient_for_subject_by_grade_method_takes_valid_three_parameter
     skip
-    #should take in grade as an integer from the set: [3, 8]
+    # should take in grade as an integer from the set: [3, 8]
   end
 
   def test_proficient_by_grade_method_returns_a_hash_with_proper_data
@@ -39,7 +42,7 @@ class StatewideTestingTest < Minitest::Test
 
   def test_proficient_by_race_or_ethnicity_method_takes_valid_parameter
     skip
-    #should take in race as a symbol from the following set: [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
+    # should take in race as a symbol from the following set: [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
   end
 
   def test_proficient_by_race_or_ethnicity_method_raises_an_error_with_an_unknown_race
@@ -62,9 +65,9 @@ class StatewideTestingTest < Minitest::Test
 
   def test_proficient_for_subject_by_grade_in_year_method_takes_valid_three_parameters
     skip
-    #should take in subject as a symbol from: [:math, :reading, :writing]
-    #grade as an integer from: [3, 8]
-    #year as an integer
+    # should take in subject as a symbol from: [:math, :reading, :writing]
+    # grade as an integer from: [3, 8]
+    # year as an integer
   end
 
   def test_proficient_for_subject_by_grade_in_year_method_raises_an_error_with_any_invalid_parameter
@@ -87,9 +90,9 @@ class StatewideTestingTest < Minitest::Test
 
   def test_proficient_for_subject_by_race_in_year_method_takes_valid_three_parameters
     skip
-    #should take in subject as a symbol from: [:math, :reading, :writing]
-    #race as a symbol from: [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
-    #year as an integer
+    # should take in subject as a symbol from: [:math, :reading, :writing]
+    # race as a symbol from: [:asian, :black, :pacific_islander, :hispanic, :native_american, :two_or_more, :white]
+    # year as an integer
   end
 
   def test_proficient_for_subject_by_race_in_year_method_raises_an_error_with_any_invalid_parameter
@@ -112,26 +115,22 @@ class StatewideTestingTest < Minitest::Test
 
   def test_proficient_for_subject_in_year_method_takes_valid_two_parameters
     skip
-    #should take in subject as a symbol from: [:math, :reading, :writing]
-    #year as an integer
+    # should take in subject as a symbol from: [:math, :reading, :writing]
+    # year as an integer
   end
 
   def test_proficient_for_subject_in_year_method_raises_an_error_with_any_invalid_parameter
-    skip
     assert_raises UnknownDataError do
-      @statewide_testing.proficient_for_subject_in_year(:history, 2012)
+      @district.statewide_testing.proficient_for_subject_in_year(:history, 2012)
     end
 
     assert_raises UnknownDataError do
-      @statewide_testing.proficient_for_subject_in_year(:math, 1842)
+      @district.statewide_testing.proficient_for_subject_in_year(:math, 1842)
     end
   end
 
   def test_proficient_for_subject_in_year_method_returns_truncated_three_digit_percentage_float
-    skip
-    expected = 0.680
-
-    assert_equal expected, @statewide_testing.proficient_for_subject_in_year(:math, 2012)
+    assert_equal 0.689, @district.statewide_testing.proficient_for_subject_in_year(:math, 2012)
   end
 
 end

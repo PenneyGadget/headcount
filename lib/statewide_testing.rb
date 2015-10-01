@@ -20,6 +20,12 @@ class StatewideTesting
     (number.to_f * 1000).to_i / 1000.0
   end
 
+  def valid_year?(year)
+   years = []
+   district_data.each_value { |element| element.each { |x| years << x[:timeframe].to_i } }
+   years.include? year
+  end
+
   def proficient_by_grade(grade)
     if grade == 3
       tg = third_grade_scores.group_by { |hash| hash[:timeframe].to_i }.map { |k,v| [k,v] }.to_h
@@ -56,8 +62,21 @@ class StatewideTesting
   end
 
   def proficient_for_subject_in_year(subject, year)
-    # needs some kind of parameter validation
-    proficient_by_grade(grade)[year][subject]
+    if valid_year?(year)
+      if subject == :math
+        m = math_by_race.find_all { |h| h[:race_ethnicity] == "All Students" && h[:timeframe] == "#{year}" }
+        truncate(m[0][:data])
+      elsif subject == :reading
+        r = reading_by_race.find_all { |h| h[:race_ethnicity] == "All Students" && h[:timeframe] == "#{year}" }
+        truncate(r[0][:data])
+      elsif subject == :writing
+        w = writing_by_race.find_all { |h| h[:race_ethnicity] == "All Students" && h[:timeframe] == "#{year}" }
+        truncate(w[0][:data])
+      else
+        fail UnknownDataError
+      end
+    else
+      fail UnknownDataError
+    end
   end
-
 end
