@@ -35,7 +35,7 @@ class DistrictRepository
   def find_all_matching(name)
     path = File.expand_path("../data", __dir__)
     names_array = Parse.new(path).district_names_array
-    names_array.keep_if { |district| district.include? name.upcase }
+    names_array.keep_if { |district| district.include? name.upcase }.map { |name| find_by_name name }
   end
 
 end

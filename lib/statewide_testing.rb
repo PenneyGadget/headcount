@@ -17,15 +17,14 @@ class StatewideTesting
     @math_by_race = district_data["Average proficiency on the CSAP_TCAP by race_ethnicity_ Math"]
     @reading_by_race = district_data["Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading"]
     @writing_by_race = district_data["Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing"]
-
-  @race_table = { "Asian" => :asian,
-                  "Black" => :black,
-                  "Hawaiian/Pacific Islander" => :pacific_islander,
-                  "Hispanic" => :hispanic,
-                  "Native American" => :native_american,
-                  "Two or more" => :two_or_more,
-                  "White" => :white
-                }
+    @race_table = { "Asian" => :asian,
+                    "Black" => :black,
+                    "Hawaiian/Pacific Islander" => :pacific_islander,
+                    "Hispanic" => :hispanic,
+                    "Native American" => :native_american,
+                    "Two or more" => :two_or_more,
+                    "White" => :white
+                  }
   end
 
   def truncate(number)
@@ -43,7 +42,7 @@ class StatewideTesting
   end
 
   def proficient_by_grade(grade)
-    if grade == 3
+    grade = if grade == 3
       tg = third_grade_scores.group_by { |hash| hash[:timeframe].to_i }.map { |k,v| [k,v] }.to_h
       tg.map { |k,v| [k, v.map { |h| [h[:score].downcase.to_sym, truncate(h[:data])] }.to_h] }.to_h
     elsif grade == 8
