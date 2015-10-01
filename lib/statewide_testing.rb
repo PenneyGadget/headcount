@@ -51,6 +51,8 @@ class StatewideTesting
     else
       fail UnknownDataError
     end
+
+    grade.map { |k,v| [k, v.reject { |k,v| v.zero? }]}.to_h.reject { |k,v| v.empty? }
   end
 
   # receives a symbol, returns a hash with years pointing at subject/integer hashes
