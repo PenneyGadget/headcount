@@ -67,16 +67,6 @@ class EconomicProfileTest < Minitest::Test
     assert_equal expected, @district.economic_profile.school_aged_children_in_poverty_by_year
   end
 
-  def test_school_aged_children_in_poverty_by_year_method_returns_an_empty_hash_if_district_data_is_not_present
-    path       = File.expand_path("../data", __dir__)
-    repository = DistrictRepository.from_csv(path)
-    district   = repository.find_by_name("not a district")
-
-    expected = {}
-
-    assert_equal expected, district.economic_profile.school_aged_children_in_poverty_by_year
-  end
-
   def test_school_aged_children_in_poverty_in_year_method_returns_nil_for_any_unknown_year
     expected = nil
 
@@ -95,26 +85,12 @@ class EconomicProfileTest < Minitest::Test
     assert_equal expected, @district.economic_profile.title_1_students_by_year
   end
 
-  def test_title_1_students_by_year_method_returns_an_empty_hash_if_the_district_data_is_not_present
-    path       = File.expand_path("../data", __dir__)
-    repository = DistrictRepository.from_csv(path)
-    district   = repository.find_by_name("not a district")
-
-    expected = {}
-
-    assert_equal expected, district.economic_profile.title_1_students_by_year
-  end
-
   def test_title_1_students_in_year_method_returns_nil_for_any_unknown_year
-    expected = nil
-
-    assert_equal expected, @district.economic_profile.title_1_students_in_year(3333)
+    assert_equal nil, @district.economic_profile.title_1_students_in_year(3333)
   end
 
   def test_title_1_students_in_year_method_returns_three_digit_percentage_float
-    expected = 0.01
-
-    assert_equal expected, @district.economic_profile.title_1_students_in_year(2012)
+    assert_equal 0.01, @district.economic_profile.title_1_students_in_year(2012)
   end
 
 end

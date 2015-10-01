@@ -205,7 +205,8 @@ class EnrollmentTest < Minitest::Test
   end
 
   def test_special_education_by_year_method_returns_a_hash_with_years_as_keys_and_three_digit_percentage_floats
-    expected = { 2011 => 0.079,
+    expected = { 2009 => 0.075,
+                 2011 => 0.079,
                  2012 => 0.078,
                  2013 => 0.079,
                  2010 => 0.078,
