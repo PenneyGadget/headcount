@@ -31,4 +31,13 @@ class Parse
     return district_data_hash
   end
 
+  def district_names_array
+    file_path = File.join(path, "Pupil enrollment.csv")
+    contents = CSV.read(file_path, headers: true, header_converters: :symbol).map { |row| row.to_h }
+    names_array = []
+    contents.each { |h| names_array << h[:location] }
+    names_array.uniq!
+    names_array.map! { |e| e.upcase }
+  end
+
 end
